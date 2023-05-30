@@ -1,47 +1,46 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  let indexInput = '';
+  let indices = [1, 2, 3, 69, 420];
+
+  function handleSubmit(event: InputEvent) {
+    event.preventDefault();
+    indexInput = '';
+  }
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<form class="form" on:submit={handleSubmit}>
+  <label for="index">Index:</label>
+  <input id="index" type="text" bind:value={indexInput} />
 
-  <div class="card">
-    <Counter />
-  </div>
+  <button type="submit">Submit</button>
+</form>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
+<div style="margin-top: 3rem">
+  <h3>Seen indices:</h3>
+  {#each indices as number, index}
+    <span>
+      {number}{index !== indices.length - 1 ? ', ' : '.'}
+    </span>
+  {/each}
+</div>
 
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+<div style="margin-top: 3rem">
+  <h3>Calculated values:</h3>
+  {#each indices as number, index}
+    <div>
+      for index {number}: {index % 2 ? 'bar' : 'foo'}
+    </div>
+  {/each}
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  .form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+
+  .form > * + * {
+    margin-left: 1rem;
   }
 </style>
